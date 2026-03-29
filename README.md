@@ -1,4 +1,4 @@
-# ai-scaffolding-skill
+# ai-scaffolding-skills
 
 Portable skill suite for bootstrapping and evolving an AI scaffolding inside a software project.
 
@@ -30,7 +30,7 @@ This repo contains these project-owned skills:
 The recommended setup is to install the full suite:
 
 ```bash
-npx skills add <your-user>/ai-scaffolding-skill --skill '*'
+npx skills add JoaquinBenegas2/ai-scaffolding-skills --skill '*'
 ```
 
 That gives `ai-scaffolding` everything it needs for the normal orchestration flow.
@@ -38,7 +38,7 @@ That gives `ai-scaffolding` everything it needs for the normal orchestration flo
 You can still install a single skill and use it independently, for example:
 
 ```bash
-npx skills add <your-user>/ai-scaffolding-skill --skill ai-scaffolding
+npx skills add JoaquinBenegas2/ai-scaffolding-skills --skill ai-scaffolding
 ```
 
 ## Recommended companion skills
@@ -102,7 +102,7 @@ The suite is intentionally conservative with external skill dependencies:
 ## Structure
 
 ```text
-ai-scaffolding-skill/
+ai-scaffolding-skills/
   skills/
     ai-scaffolding/
     agents-md-generator/
@@ -126,19 +126,19 @@ Each skill may include:
 List available skills:
 
 ```bash
-npx skills add <your-user>/ai-scaffolding-skill --list
+npx skills add JoaquinBenegas2/ai-scaffolding-skills --list
 ```
 
 Install all skills from this repo:
 
 ```bash
-npx skills add <your-user>/ai-scaffolding-skill --skill '*'
+npx skills add JoaquinBenegas2/ai-scaffolding-skills --skill '*'
 ```
 
 Install one skill:
 
 ```bash
-npx skills add <your-user>/ai-scaffolding-skill --skill ai-scaffolding
+npx skills add JoaquinBenegas2/ai-scaffolding-skills --skill ai-scaffolding
 ```
 
 ## Suggested usage

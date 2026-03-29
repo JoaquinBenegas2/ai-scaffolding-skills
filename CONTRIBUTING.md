@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for contributing to `ai-scaffolding-skill`.
+Thanks for contributing to `ai-scaffolding-skills`.
 
 This repository is meant to evolve over time. Contributions can:
 
