@@ -179,10 +179,9 @@ If `.agents/ai-scaffolding-context.md` exists, update it with:
 
 ## Reference inputs
 
-This skill aligns with:
+Use the bundled references in this skill folder:
 
-- `RAG/MEMORY_RULES/CLAUDE_RULES.md`
-- `RAG/MEMORY_RULES/ANATOMY_OF_THE_CLAUDE_FOLDER.md`
-- `RAG/WORKFLOWS/THE_CODING_AGENT_HARNESS.md`
+- `references/TECH_RULESET_MAP.md`
+- `references/RULE_FILE_TEMPLATE.md`
 
-Use these references to preserve modularity, progressive disclosure, and context efficiency.
+Use them to preserve modularity, progressive disclosure, and context efficiency.

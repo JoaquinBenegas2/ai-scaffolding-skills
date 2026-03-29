@@ -176,12 +176,11 @@ If existing docs disagree:
 - Forcing one stack pattern when repo clearly uses another.
 - Re-asking questions already answered in `.agents/ai-scaffolding-context.md`.
 
-## Reference inputs for this skill
+## Internal references for this skill
 
-This skill is designed to align with the ideas in:
+Use the bundled references in this skill folder as the baseline:
 
-- `RAG/AGENTS/`
-- `RAG/WORKFLOWS/DEFINITIVE_GUIDE_TO_REDUCING_TOKEN_USAGE.md`
-- `RAG/WORKFLOWS/THE_CODING_AGENT_HARNESS.md`
+- `references/AGENTS_MD_TEMPLATE.md`
+- `references/STACK_CONVENTIONS.md`
 
-Use these as guidance for context hygiene, progressive disclosure, and reliable agent behavior.
+Combine them with repository evidence to keep outputs concise, context-efficient, and reliable.

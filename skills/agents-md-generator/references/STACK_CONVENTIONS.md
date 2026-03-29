@@ -24,6 +24,26 @@ Use these as defaults only when repository evidence is missing or weak.
 - Checks to prefer:
   - `go test ./...`, `go vet ./...`, `golangci-lint run` (if present).
 
+## Python (FastAPI/Django/Flask)
+
+- Conventions:
+  - Keep domain logic separate from transport layer.
+  - Use type hints where repository already relies on them.
+  - Enforce validation at API/service boundaries.
+  - Prefer deterministic tests with fixtures/factories.
+- Checks to prefer:
+  - `pytest`, lint, format, type checks if configured.
+
+## JavaScript/TypeScript
+
+- Conventions:
+  - Prefer feature-oriented folders when repo structure is unclear.
+  - Keep API contracts and shared types explicit.
+  - Avoid hidden runtime coupling between modules.
+  - Favor lint + tests + typecheck when TypeScript is present.
+- Checks to prefer:
+  - lint + tests + build, and `tsc --noEmit` when TypeScript is configured.
+
 ## React (Vite/CRA/custom)
 
 - Conventions:
@@ -44,15 +64,15 @@ Use these as defaults only when repository evidence is missing or weak.
 - Checks to prefer:
   - `next build`, lint, typecheck, tests.
 
-## Python (FastAPI/Django/Flask)
+## Angular
 
 - Conventions:
-  - Keep domain logic separate from transport layer.
-  - Use type hints where repository already relies on them.
-  - Enforce validation at API/service boundaries.
-  - Prefer deterministic tests with fixtures/factories.
+  - Keep feature modules or standalone feature areas cohesive.
+  - Use services for shared data access and side effects.
+  - Keep templates accessible and avoid overloading smart components.
+  - Follow the repository's preferred state pattern consistently.
 - Checks to prefer:
-  - `pytest`, lint, format, type checks if configured.
+  - Angular test runner, lint, build, and typecheck.
 
 ## .NET
 

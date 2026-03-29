@@ -8,7 +8,7 @@ Use this bank to ask only what cannot be inferred from `AGENTS.md`, `.agents/rul
 2. Do you want a `monolith`, `microservices`, or `modular monolith` architecture?
 3. What is the top priority right now: `time-to-market`, `quality`, `performance`, `security`, or `scalability`?
 
-## Frontend (React, Angular, JS/TS UI)
+## Frontend (JavaScript/TypeScript, React, Next.js, Angular)
 
 - Do you need SSR/SSG (Next/Nuxt) or SPA?
 - Will you use a dedicated design system?
@@ -30,11 +30,11 @@ Use this bank to ask only what cannot be inferred from `AGENTS.md`, `.agents/rul
 - Do you prefer DDD/Clean Architecture or traditional layered architecture?
 - Is high-concurrency processing a priority?
 
-## .NET
+## Go
 
-- ASP.NET Core Web API, Minimal APIs, MVC, or mixed?
-- Will you use MediatR/CQRS or another application pattern?
-- Do you require strict OpenAPI contract rules?
+- Preferred package architecture (clean/hexagonal/feature-based)?
+- Do you need high throughput with intensive concurrency?
+- Is gRPC/protobuf compatibility required?
 
 ## Python
 
@@ -42,11 +42,35 @@ Use this bank to ask only what cannot be inferred from `AGENTS.md`, `.agents/rul
 - Main focus: API, data pipelines, AI/ML, or automation?
 - Expected typing and linting rigor (mypy/ruff/pytest)?
 
-## Go
+## JavaScript/TypeScript
 
-- Preferred package architecture (clean/hexagonal/feature-based)?
-- Do you need high throughput with intensive concurrency?
-- Is gRPC/protobuf compatibility required?
+- Is this primarily browser UI, Node backend, or fullstack?
+- Do you want strict TypeScript enforcement or mixed JS/TS?
+- Are shared API contracts or monorepo package boundaries important?
+
+## React
+
+- Will you use plain React, Vite, CRA, Remix, or a custom setup?
+- What state strategy do you want (local, global, server state)?
+- Do you expect a component library or design system from day one?
+
+## Next.js
+
+- App Router, Pages Router, or mixed migration mode?
+- Is SEO/metadata handling a first-class requirement?
+- Are server actions, ISR, or edge/runtime constraints important?
+
+## Angular
+
+- Standalone components, NgModules, or mixed migration mode?
+- Do you expect NgRx/signals/another state approach?
+- Is enterprise form complexity a major concern?
+
+## .NET
+
+- ASP.NET Core Web API, Minimal APIs, MVC, or mixed?
+- Will you use MediatR/CQRS or another application pattern?
+- Do you require strict OpenAPI contract rules?
 
 ## Quick closure (if data is missing)
 

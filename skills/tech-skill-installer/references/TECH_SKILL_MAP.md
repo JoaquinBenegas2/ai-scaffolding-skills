@@ -14,7 +14,68 @@ Baseline map to build bundles. This is a coverage guide, not a rigid list.
 8. UI/UX (if applicable)
 9. Operations/delivery
 
-## React / Modern frontend
+## Java
+
+- Core: Java backend patterns, Spring/Quarkus/Micronaut best practices.
+- Architecture: modular monolith or microservices.
+- Testing: unit, integration, contract testing.
+- Resilience: retries, timeouts, circuit breaker.
+- Observability: logs, metrics, traces.
+- Security: authn/authz, OWASP backend.
+
+Suggested search queries:
+
+- `java backend architecture`
+- `spring boot best practices`
+- `java microservices`
+- `java testing`
+- `api contract testing`
+- `backend observability`
+
+## Go
+
+- Core: package boundaries, clean architecture, interfaces.
+- Testing: table-driven tests, integration.
+- Performance: concurrency, profiling.
+- Operations: observability and deployment.
+
+Suggested search queries:
+
+- `golang architecture`
+- `go best practices`
+- `go testing`
+- `golang microservices`
+
+## Python
+
+- Core: FastAPI/Django architecture.
+- Quality: typing, linting, code quality.
+- Testing: pytest unit/integration.
+- Performance: async, profiling.
+
+Suggested search queries:
+
+- `python backend architecture`
+- `fastapi best practices`
+- `python testing pytest`
+- `python code quality`
+
+## JavaScript/TypeScript
+
+- Core: frontend or fullstack JS/TS structure, module boundaries, API contracts.
+- Quality: linting, formatting, typing strategy, test layering.
+- Performance: bundling, rendering, network caching when relevant.
+- UI/UX: accessibility, styling system, reusable components.
+
+Suggested search queries:
+
+- `typescript architecture`
+- `javascript best practices`
+- `typescript testing`
+- `frontend accessibility`
+- `typescript api contracts`
+
+## React
 
 - Core: `react-best-practices`, component structure, state management, data fetching.
 - UI/UX: `frontend-design`, accessibility, design system, styling.
@@ -31,6 +92,21 @@ Suggested search queries:
 - `react performance`
 - `typescript frontend architecture`
 
+## Next.js
+
+- Core: App Router or Pages Router conventions, rendering boundaries, data fetching.
+- Performance: caching, bundle control, route-level optimization.
+- SEO/content: metadata, structured rendering, loading/error states.
+- Quality: route conventions, server/client boundaries, testing.
+
+Suggested search queries:
+
+- `nextjs best practices`
+- `nextjs app router`
+- `nextjs performance`
+- `nextjs seo`
+- `react server components`
+
 ## Angular
 
 - Core: feature-based architecture, services, state, routing.
@@ -45,25 +121,7 @@ Suggested search queries:
 - `angular styling`
 - `frontend accessibility`
 
-## Java Backend
-
-- Core: Java backend patterns, spring/quarkus best practices.
-- Architecture: modular monolith or microservices.
-- Testing: unit, integration, contract testing.
-- Resilience: retries, timeouts, circuit breaker.
-- Observability: logs, metrics, traces.
-- Security: authn/authz, OWASP backend.
-
-Suggested search queries:
-
-- `java backend architecture`
-- `spring boot best practices`
-- `java microservices`
-- `java testing`
-- `api contract testing`
-- `backend observability`
-
-## .NET Backend
+## .NET
 
 - Core: ASP.NET Core, clean architecture.
 - Architecture: APIs, messaging, modularity.
@@ -76,34 +134,6 @@ Suggested search queries:
 - `asp.net core best practices`
 - `.net microservices`
 - `.net testing`
-
-## Python Backend
-
-- Core: FastAPI/Django architecture.
-- Quality: typing, linting, code quality.
-- Testing: pytest unit/integration.
-- Performance: async, profiling.
-
-Suggested search queries:
-
-- `python backend architecture`
-- `fastapi best practices`
-- `python testing pytest`
-- `python code quality`
-
-## Go Backend
-
-- Core: package boundaries, clean architecture, interfaces.
-- Testing: table-driven tests, integration.
-- Performance: concurrency, profiling.
-- Operations: observability and deployment.
-
-Suggested search queries:
-
-- `golang architecture`
-- `go best practices`
-- `go testing`
-- `golang microservices`
 
 ## Architecture-based selection
 

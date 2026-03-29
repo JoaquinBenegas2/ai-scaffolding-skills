@@ -54,6 +54,41 @@ Recommended files:
 
 If pure JavaScript, keep same topics with `javascript-` prefix.
 
+## React
+
+Recommended files:
+
+- `react-component-boundaries.md`
+- `react-state-management.md`
+- `react-data-fetching.md`
+- `react-testing.md`
+- `react-accessibility.md`
+- `react-performance.md`
+- `react-styling-design-system.md`
+
+## Next.js
+
+Recommended files:
+
+- `nextjs-routing-rendering.md`
+- `nextjs-server-client-boundaries.md`
+- `nextjs-data-fetching-caching.md`
+- `nextjs-metadata-seo.md`
+- `nextjs-testing.md`
+- `nextjs-performance.md`
+
+## Angular
+
+Recommended files:
+
+- `angular-project-structure.md`
+- `angular-components-templates.md`
+- `angular-services-state.md`
+- `angular-routing.md`
+- `angular-testing.md`
+- `angular-accessibility.md`
+- `angular-dependencies.md`
+
 ## .NET (C#)
 
 Recommended files:

@@ -73,7 +73,13 @@ Always guide the workflow in this exact sequence:
 
 Never reorder the sequence unless the user explicitly requests a different order.
 
-If the host supports isolated execution per skill, prefer isolated/forked execution to reduce context bleed. If not, run sequentially in the same conversation while preserving the shared context file.
+Execution preference:
+
+- By default, prefer ephemeral subagents (isolated, non-persistent delegated runs) for each stage when the host supports them.
+- Treat these ephemeral subagents as execution-time helpers only: create them for the current run, pass the needed context, collect the result, and do not persist them under `.agents/agents/`.
+- Use `references/SUBAGENT_PROMPT_CONTRACT.md` to structure every delegated stage prompt so the handoff stays consistent.
+- If the host does not support ephemeral or isolated subagents, run the stages sequentially in the same conversation while preserving the shared context file.
+- Create persistent subagents under `.agents/agents/` only when the user explicitly asks for reusable subagents or when a later stage is specifically generating them as project artifacts.
 
 ## Operating flow
 
@@ -137,14 +143,23 @@ Treat this file as the shared source of truth for the entire scaffolding flow.
 For each required skill in order:
 
 1. Confirm the skill is installed.
-2. Ask the skill to read `.agents/ai-scaffolding-context.md` before exploring or questioning further.
-3. Run the skill for its stage objective.
-4. Read the outputs it produced.
-5. Update `.agents/ai-scaffolding-context.md` with:
+2. Build the stage handoff from `.agents/ai-scaffolding-context.md` plus current repo evidence.
+3. If ephemeral subagents are supported, delegate the stage with the prompt structure from `references/SUBAGENT_PROMPT_CONTRACT.md`.
+4. If ephemeral subagents are not supported, run the stage directly in the current conversation while preserving the same handoff structure.
+5. Ask the skill to read `.agents/ai-scaffolding-context.md` before exploring or questioning further.
+6. Run the skill for its stage objective.
+7. Read the outputs it produced.
+8. Update `.agents/ai-scaffolding-context.md` with:
    - files created or updated,
    - key decisions,
    - remaining gaps,
    - assumptions or risks.
+
+Delegation rule:
+
+- Default to ephemeral subagents for stage isolation when possible.
+- Fall back gracefully to in-thread execution when the host does not support them.
+- Do not create persistent subagent files just to perform temporary orchestration.
 
 Handoff rules:
 
@@ -219,6 +234,5 @@ Always report:
 - `references/SUBAGENT_PROMPT_CONTRACT.md`
 - `references/AI_SCAFFOLDING_CONTEXT_TEMPLATE.md`
 - `references/BASIC_SKILL_CREATION_GUIDE.md`
-- `AGENTS.md`
 
-Use these references to keep the workflow concrete, incremental, and reusable.
+Use these bundled references together with any root `AGENTS.md` already present in the target repository to keep the workflow concrete, incremental, and reusable.
