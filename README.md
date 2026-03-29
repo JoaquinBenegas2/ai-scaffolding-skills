@@ -32,10 +32,16 @@ This repo contains these project-owned skills:
 The recommended setup is to install the full suite:
 
 ```bash
-npx skills add JoaquinBenegas2/ai-scaffolding-skills --skill '*'
+npx skills add JoaquinBenegas2/ai-scaffolding-skills --skill *
 ```
 
 That gives `ai-scaffolding` everything it needs for the normal orchestration flow.
+
+If you want to choose skills interactively from the terminal toggle UI:
+
+```bash
+npx skills add JoaquinBenegas2/ai-scaffolding-skills
+```
 
 You can still install a single skill and use it independently, for example:
 
@@ -141,7 +147,13 @@ npx skills add JoaquinBenegas2/ai-scaffolding-skills --list
 Install all skills from this repo:
 
 ```bash
-npx skills add JoaquinBenegas2/ai-scaffolding-skills --skill '*'
+npx skills add JoaquinBenegas2/ai-scaffolding-skills --skill *
+```
+
+Install by selecting the skills you want in the terminal UI:
+
+```bash
+npx skills add JoaquinBenegas2/ai-scaffolding-skills
 ```
 
 Install one skill:
