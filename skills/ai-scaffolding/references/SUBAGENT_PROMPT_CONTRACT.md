@@ -63,5 +63,5 @@ Return:
 - Stage 1 (`agents-md-generator-subagent`): include high-level project intent and scope boundaries.
 - Stage 2 (`tech-rules-generator-subagent`): include AGENTS constraints from stage 1.
 - Stage 3 (`tech-commands-generator-subagent`): include rules coverage, Git conventions, and repo-native workflows.
-- Stage 4 (`tech-skill-installer-subagent`): include rules coverage, unresolved capability gaps, and an explicit reminder that companion-skill validation alone is not a valid outcome.
+- Stage 4 (`tech-skill-installer-subagent`): include rules coverage, unresolved capability gaps, and an explicit reminder that the subagent must run real `find-skills` search/install work; companion-skill validation alone is not a valid outcome.
 - Stage 5 (`skills-to-subagents-subagent`): include final installed project-skill inventory, created custom skills, and missing responsibility map.

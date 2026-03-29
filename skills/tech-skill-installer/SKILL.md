@@ -9,6 +9,14 @@ Install a high-coverage skill bundle based on the requested stack and real repos
 
 This stage installs or recommends project skills for the target repository. It does not exist to validate the ai-scaffolding companion skills.
 
+Primary success condition:
+
+- run real discovery with `find-skills`,
+- install external project skills that fit the target stack,
+- then identify any remaining gaps that should be closed with custom skills.
+
+Do not present dependency availability as the main outcome.
+
 ## Goal
 
 When the user says something like:
@@ -31,9 +39,9 @@ you should:
 Companion-skill validation boundary:
 
 - Checking that `agents-md-generator`, `tech-rules-generator`, `tech-commands-generator`, `tech-skill-installer`, or `skills-to-subagents` are present does not satisfy this skill.
-- Success requires project-skill discovery plus one of these outcomes:
-  - install one or more project skills, or
-  - emit explicit gap lines for uncovered domains using the exact required sentences.
+- Success requires actual `find-skills` search plus one of these outcomes:
+  - install external project skills, or
+  - if external coverage is insufficient, explicitly trigger custom-skill follow-up for the missing coverage.
 
 ## Operating flow
 
@@ -113,6 +121,12 @@ Define a domain coverage matrix:
 
 Use `references/TECH_SKILL_MAP.md` as the baseline.
 
+Coverage strategy:
+
+- prefer real, broadly useful external skills over perfect-but-nonexistent niche matches,
+- for mainstream stacks like Java/Spring Boot, React, Next.js, Python, Go, and .NET, assume that at least some generic or adjacent skills should exist,
+- only escalate to custom-skill recommendations after broad and adjacent external searches have been exhausted.
+
 ### Step 5 - Validate `find-skills` dependency
 
 This skill depends on `find-skills`.
@@ -122,6 +136,8 @@ Before running any discovery/install search:
 1. Check whether `find-skills` is already available in the current environment or repository skill set.
 2. If it is available, continue normally.
 3. If it is missing, always consult the user before installing it.
+
+If `find-skills` is available, dependency validation is only a prerequisite. You must still execute real search and install work.
 
 Required behavior when `find-skills` is missing:
 
@@ -141,12 +157,41 @@ If `.agents/ai-scaffolding-context.md` exists, record:
 
 Load and use `find-skills` to research concrete options.
 
+This step requires actual `find-skills` usage. Merely stating that `find-skills` is available is incomplete.
+
+Search order is mandatory:
+
+1. broad stack queries,
+2. adjacent capability queries,
+3. repo-specific or domain-specific queries.
+
+Do not start from invented skill names.
+
 For each domain in the plan:
 
 1. Run specific queries (not generic).
 2. Validate skill quality (installs, source, reputation).
 3. Avoid duplicates and low-value overlap.
 4. Record the concrete query strings used in the final report and shared context.
+
+Search execution rule:
+
+- record the exact `find-skills` search commands or invocations used,
+- do not substitute high-level prose like "skills validated" for actual search evidence,
+- if `find-skills` returns candidates, carry those results into selection and installation instead of stopping at the search phase.
+
+Minimum search breadth before declaring zero-install outcome:
+
+- cover at least 3 domains for mainstream stacks,
+- include at least one broad stack query and one adjacent capability query for each covered domain,
+- include at least one query that is not framework- or vendor-specific when the stack is mainstream.
+
+Selection policy during search:
+
+- prefer the best available approximation for a capability even if it is broader than the repository,
+- do not reject a good Java backend, testing, security, or observability skill only because it is not Spring- or Auth0-specific,
+- treat exact stack specialization as a bonus, not a requirement.
+- prefer installing good external skills first, then use custom skills only for uncovered areas.
 
 If GitHub CLI/API reputation checks are unavailable, use fallback validation:
 
@@ -156,9 +201,15 @@ If GitHub CLI/API reputation checks are unavailable, use fallback validation:
 
 and mark star validation as pending in the final report.
 
-If there is no clear skill for a need, document the gap and continue with nearest alternatives.
+If there is no clear skill for a need, document the capability gap and continue with nearest alternatives.
 
 When a gap is important enough that the project would benefit from a custom skill, recommend creation explicitly.
+
+Gap wording rule:
+
+- express gaps as missing capabilities or domains, not as imagined skill package names,
+- good: `Spring Boot architecture guidance`, `Auth0 resource server hardening`, `scheduler and email operations`,
+- bad: `spring-boot-architecture-specialist`, `auth0-resource-server-hardening`.
 
 Use this exact sentence when applicable:
 
@@ -195,6 +246,12 @@ Install skills approved by the plan using `find-skills` commands.
 
 Do actual installation work in `install` mode. Do not stop after planning unless the user explicitly requested `plan-only`.
 
+Installation rule:
+
+- if `find-skills` produced viable candidates, execute real install commands,
+- do not finish with zero external installs unless broad and adjacent candidates were genuinely exhausted or rejected for documented reasons,
+- for mainstream stacks, treat at least one external install as the default expectation before escalating to custom-skill creation.
+
 When an install command prompts for target environment or host tool, keep the default `.agents/` target and do not select any tool-specific option.
 
 After installation work in `install` mode, create or update `.agents/installed-skills-summary.md`.
@@ -223,9 +280,16 @@ If mode is `plan-only`, do not run install commands; provide ready-to-run comman
 If mode is `install` and no project skill meets the quality bar or no relevant skill is found:
 
 - do not claim success based only on companion-skill validation,
+- treat zero installs on a mainstream stack as exceptional and assume the search was too narrow unless the documented queries show broad and adjacent coverage,
 - include the exact line `I could not find skills for: ...`,
 - include `I recommend creating skills for: ...` when the missing coverage is important enough to justify a custom skill,
 - make the uncovered domains explicit enough for `ai-scaffolding` to trigger the custom-skill path.
+
+If external installs do not reach the minimum useful bundle:
+
+- install the best external skills you did find,
+- then recommend custom-skill creation for the remaining high-value coverage,
+- do not treat "zero external installs + gap lines" as the preferred outcome for mainstream stacks.
 
 ## Skill quality policy
 
@@ -263,18 +327,22 @@ Always report:
 2. Questions asked (if any) and decisions made.
 3. Domain-based search plan.
 4. Concrete `find-skills` queries executed.
-5. Selected project skills by tier with short rationale.
-6. Installation commands executed.
+5. Exact `find-skills` install commands executed.
+6. Installed external project skills by tier with short rationale.
 7. Installation target used and confirmation that no environment-specific target was selected.
 8. Summary file created or updated at `.agents/installed-skills-summary.md`.
-9. Installed project skills and pending failures (if any).
+9. Remaining coverage to create as custom skills, if external installs were insufficient.
 10. Optional opportunities intentionally not installed because of bundle-size limits.
 11. Identified gaps and proposed next step.
 12. `find-skills` status (already present, user-approved install, or blocked waiting for approval).
 
+Do not lead the report with companion-skill validation. Lead with what was searched, installed, and still needs creation.
+
 If no project skills were installed, the report must still include at least one of the exact gap lines below. A report with zero installed project skills and no explicit gap lines is incomplete.
 
 If fewer than 3 project skills were installed, explain why the minimum target could not be reached.
+
+If zero project skills were installed for a mainstream stack, explain why each broad or adjacent candidate was rejected and why custom-skill creation is or is not recommended.
 
 If 15 project skills were installed and more viable candidates remained, do not install more; list them as optional opportunities instead.
 
@@ -304,12 +372,15 @@ If `.agents/ai-scaffolding-context.md` exists, update it with:
 - Asking broad questions before reading the repo.
 - Installing `find-skills` without asking the user first.
 - Installing by keyword only without quality checks.
+- Reporting only companion-skill validation without showing real `find-skills` search and install work.
 - Picking only 2-3 generic skills and leaving critical gaps.
 - Ignoring architecture (microservices vs monolith).
 - Installing redundant skills that duplicate value.
 - Selecting Windsurf, Claude, Kiro, Codex, Cursor, or any other environment-specific install target when the default `.agents/` target is available.
 - Installing more than 15 project skills by default.
 - Omitting the installed skill summary file or filling it with prose instead of the required title-plus-table format.
+- Jumping straight to niche repo-specific queries and never trying broad or adjacent capability queries.
+- Describing missing coverage as invented skill names instead of capabilities.
 - Forcing recommendations that conflict with local rules.
 - Re-asking questions already answered in `.agents/ai-scaffolding-context.md`.
 - Treating this skill as complete after only validating the workflow companion skills.

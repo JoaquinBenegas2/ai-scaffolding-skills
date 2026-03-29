@@ -45,7 +45,7 @@ Use this template for `.agents/ai-scaffolding-context.md`.
 - find-skills approval:
 - skill-creator status:
 - skill-creator approval:
-- companion skills validation status:
+- dependency notes:
 
 ## Stage outputs
 ### agents-md-generator
@@ -64,12 +64,12 @@ Use this template for `.agents/ai-scaffolding-context.md`.
 - Open issues:
 
 ### tech-skill-installer
-- Companion skills verified:
-- Search queries executed:
+- find-skills search commands executed:
+- find-skills install commands executed:
 - Installation target used:
 - Installed skills summary file:
-- Install commands executed:
-- Installed project skills:
+- Installed external project skills:
+- Created custom project skills:
 - Optional opportunities deferred by cap:
 - Missing project-skill coverage:
 - Decisions:

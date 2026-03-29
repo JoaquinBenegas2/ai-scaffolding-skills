@@ -71,6 +71,8 @@ Skill categories in this workflow:
 
 Do not treat companion-skill validation as a substitute for project-skill discovery or installation.
 
+Companion-skill validation is only a prerequisite. The primary outcome of stage 4 must be project skills searched with `find-skills`, installed externally, and supplemented with created skills when needed.
+
 ## Mandatory execution order
 
 Always guide the workflow in this exact sequence:
@@ -171,6 +173,7 @@ Stage-specific context expectations:
 - `tech-rules-generator`: persist the selected technologies, rule topics, and rule-pack rationale.
 - `tech-commands-generator`: persist the command files created, the Git baseline kept or omitted, stack-specific commands added, and the repo evidence behind them.
 - `tech-skill-installer`: persist the companion-skill validation separately from the project-skill search queries, default `.agents/` install target, summary file path, installed project skills, optional deferred opportunities, unmet domains, dependency approvals, and bundle rationale.
+- `tech-skill-installer`: persist exact `find-skills` search/install commands, external project skills installed, created or recommended custom skills for missing coverage, and keep companion-skill validation as a secondary dependency note.
 - `skills-to-subagents`: persist which reusable subagents were created or intentionally skipped and why.
 
 Delegation rule:
@@ -191,14 +194,19 @@ Handoff rules:
 After `tech-skill-installer` runs:
 
 1. Inspect its output for:
-   - installed project skills or executed install commands,
+   - exact `find-skills` search commands or invocations,
+   - exact `find-skills` install commands or a documented reason none could be executed,
+   - installed external project skills,
    - confirmation that the default `.agents/` target was used without selecting an environment-specific host,
    - `.agents/installed-skills-summary.md` created or updated,
+   - broad and adjacent search queries recorded,
    - `I could not find skills for: ...`
    - `I recommend creating skills for: ...`
-2. If the installer did not confirm the default `.agents/` target, did not create the installed-skill summary file, or did not install any project skills and did not emit at least one of the exact gap lines above, treat stage 4 as incomplete and rerun it with an explicit correction.
-3. If project skills were installed and no custom skill creation is recommended, continue to the next stage.
-4. If custom skill creation is recommended:
+2. If the installer did not actually use `find-skills` for search, did not confirm the default `.agents/` target, did not create the installed-skill summary file, or only reported companion validation, treat stage 4 as incomplete and rerun it with an explicit correction.
+3. If the installer reported zero external project installs for a mainstream stack, inspect whether the gap lines are capabilities instead of imagined skill names and whether the search queries show broad-to-specific coverage; otherwise treat stage 4 as incomplete and rerun it.
+4. If external installs did not produce a sufficient project-skill baseline, do not stop at stage 4; trigger custom-skill creation for the remaining critical coverage before proceeding.
+5. If project skills were installed or created to close the baseline coverage and no further custom skill creation is recommended, continue to the next stage.
+6. If custom skill creation is recommended:
     - ask the user whether to install `skill-creator`,
     - wait for the user's answer before deciding the creation path.
 
@@ -214,7 +222,7 @@ If `.agents/ai-scaffolding-context.md` exists, record:
 - which skills were recommended for creation,
 - whether `skill-creator` was approved,
 - whether skills were created with `skill-creator` or the basic manual path.
-- whether stage 4 installed project skills, emitted explicit gaps, or had to be rerun for being incomplete.
+- whether stage 4 actually used `find-skills`, installed external project skills, created custom skills to close gaps, or had to be rerun for being incomplete.
 
 ### Step 5 - Consolidation and consistency checks
 
@@ -223,13 +231,17 @@ At the end of the 5-stage sequence, validate:
 1. Scaffold structure exists and is coherent.
 2. `AGENTS.md` and `.agents/rules/` do not conflict.
 3. `.agents/commands/` aligns with `AGENTS.md`, `.agents/rules/`, and actual repo workflows.
-4. `tech-skill-installer` kept installation on the default `.agents/` target and did not select an environment-specific host unless the user explicitly requested it.
-5. `.agents/installed-skills-summary.md` exists and contains only the required title and audit table.
-6. `tech-skill-installer` produced one of these outcomes: installed project skills, or exact explicit gap lines for uncovered domains.
-7. Installed/created project skills align with rules, commands, and stack.
-8. The installed project-skill count stays within the expected 3-15 range, or the shortfall/excess candidates are explicitly justified.
-9. `.agents/ai-scaffolding-context.md` reflects the final state accurately.
-10. Outputs from the final stage remain non-overlapping and purpose-specific.
+4. `tech-skill-installer` actually used `find-skills` to search and did not stop at dependency validation.
+5. `tech-skill-installer` kept installation on the default `.agents/` target and did not select an environment-specific host unless the user explicitly requested it.
+6. `.agents/installed-skills-summary.md` exists and contains only the required title and audit table.
+7. `tech-skill-installer` recorded broad and adjacent queries before declaring uncovered domains.
+8. Any zero-external-install result for a mainstream stack is explicitly justified by rejected broad candidates, not just niche misses.
+9. Gap lines describe capabilities/domains, not hypothetical skill names.
+10. The workflow ends with project skills installed externally, created locally to close the remaining gaps, or both.
+11. Installed/created project skills align with rules, commands, and stack.
+12. The installed/created project-skill count stays within the expected 3-15 range, or the shortfall/excess candidates are explicitly justified.
+13. `.agents/ai-scaffolding-context.md` reflects the final state accurately.
+14. Outputs from the final stage remain non-overlapping and purpose-specific.
 
 If conflicts exist, report them and propose the smallest safe fix.
 
@@ -241,13 +253,14 @@ Always report:
 2. Questions asked and why they mattered.
 3. Skill execution trace in order.
 4. Files created/updated by stage.
-5. Companion skills validated or installed.
-6. Project skills discovered, installed, or explicitly marked as gaps.
+5. `find-skills` search/install work actually executed for project skills.
+6. Project skills installed externally, created locally, or both.
 7. Installation target used for project skills, summary file created, and whether any opportunities were intentionally deferred by the 15-skill cap.
 8. Decisions propagated through the context file.
 9. Whether missing custom skills were created with `skill-creator` or the manual fallback path.
-10. Assumptions and unresolved risks.
-11. Recommended next validation step.
+10. Companion dependency notes only if they affected the run.
+11. Assumptions and unresolved risks.
+12. Recommended next validation step.
 
 ## Anti-patterns
 
@@ -261,6 +274,9 @@ Always report:
 - Treating `tech-skill-installer` as a companion-skill check instead of a project-skill installation stage.
 - Allowing `tech-skill-installer` to select an environment-specific install target when the default `.agents/` path is sufficient.
 - Allowing `tech-skill-installer` to install an unbounded number of project skills.
+- Accepting zero installed project skills on a mainstream stack without evidence of broad-to-specific search.
+- Accepting gap lines written as imagined skill names instead of capabilities.
+- Treating companion-skill availability as the main outcome instead of real search/install/create work for project skills.
 
 ## Internal references
 

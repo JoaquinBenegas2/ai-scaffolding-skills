@@ -69,10 +69,11 @@ High level behavior:
 - `ai-scaffolding` is the orchestrator skill.
 - It explores the repo first and persists shared state in `.agents/ai-scaffolding-context.md`.
 - Companion skills read that file first when it exists, reuse its answers, and only ask for missing information.
-- `ai-scaffolding` validates required companion skills, runs `agents-md-generator` -> `tech-rules-generator` -> `tech-commands-generator` -> `tech-skill-installer` -> `skills-to-subagents`, handles missing dependencies, and updates the context after every stage.
-- `tech-skill-installer` is for project skills, not workflow companion validation: it must install useful project skills or emit explicit gap lines that trigger the custom-skill path.
+- `ai-scaffolding` validates required companion skills only as a prerequisite, then runs `agents-md-generator` -> `tech-rules-generator` -> `tech-commands-generator` -> `tech-skill-installer` -> `skills-to-subagents`, handles missing dependencies, and updates the context after every stage.
+- `tech-skill-installer` is for project skills, not workflow companion validation: it must actually use `find-skills`, install useful external project skills, and trigger custom-skill creation for any critical missing coverage.
 - `tech-skill-installer` must keep the default `.agents/` install target, avoid environment-specific targets like Windsurf/Claude/Codex/Kiro, and keep the installed bundle between 3 and 15 skills unless it explicitly documents why it could not reach the minimum.
 - `tech-skill-installer` must also create `.agents/installed-skills-summary.md` with only a title and a table listing each installed skill, its objective, why it was installed, and the repository link for manual review.
+- `tech-skill-installer` must search broad-to-specific, prefer real generic skills before niche custom gaps, and describe any remaining gaps as capabilities rather than invented skill names.
 
 ## Flow diagram
 

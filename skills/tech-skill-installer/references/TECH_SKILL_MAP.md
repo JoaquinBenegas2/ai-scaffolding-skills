@@ -29,8 +29,12 @@ Suggested search queries:
 - `spring boot best practices`
 - `java microservices`
 - `java testing`
+- `spring testing`
+- `spring security`
+- `backend security`
 - `api contract testing`
 - `backend observability`
+- `java observability`
 
 ## Go
 
@@ -162,3 +166,9 @@ Prioritize skills for:
 - Maximum: 15 installed skills.
 - If more than 15 good candidates exist, install only the best-fitting 15 and report the rest as optional opportunities.
 - If fewer than 3 good candidates exist, install the defensible set and explicitly report the shortfall.
+
+## Gap wording guidance
+
+- Report missing coverage as capabilities or domains.
+- Do not report gaps as hypothetical skill names.
+- Prefer wording like `Spring Boot architecture guidance` over `spring-boot-architecture-specialist`.
