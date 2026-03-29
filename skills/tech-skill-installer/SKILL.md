@@ -7,6 +7,8 @@ description: Discover and install a high-coverage skill bundle tailored to the p
 
 Install a high-coverage skill bundle based on the requested stack and real repository context.
 
+This stage installs or recommends project skills for the target repository. It does not exist to validate the ai-scaffolding companion skills.
+
 ## Goal
 
 When the user says something like:
@@ -24,6 +26,13 @@ you should:
 5. Verify `find-skills` is available.
 6. Use `find-skills` to discover concrete skills.
 7. Install a coherent set (10-20+ is valid when it adds non-redundant coverage).
+
+Companion-skill validation boundary:
+
+- Checking that `agents-md-generator`, `tech-rules-generator`, `tech-commands-generator`, `tech-skill-installer`, or `skills-to-subagents` are present does not satisfy this skill.
+- Success requires project-skill discovery plus one of these outcomes:
+  - install one or more project skills, or
+  - emit explicit gap lines for uncovered domains using the exact required sentences.
 
 ## Operating flow
 
@@ -114,6 +123,7 @@ If `.agents/ai-scaffolding-context.md` exists, record:
 - whether `find-skills` was already available,
 - whether the user approved installation,
 - how it was installed.
+- whether companion skills were already present, but keep that separate from project-skill results.
 
 ### Step 6 - Search with find-skills
 
@@ -124,6 +134,7 @@ For each domain in the plan:
 1. Run specific queries (not generic).
 2. Validate skill quality (installs, source, reputation).
 3. Avoid duplicates and low-value overlap.
+4. Record the concrete query strings used in the final report and shared context.
 
 If GitHub CLI/API reputation checks are unavailable, use fallback validation:
 
@@ -162,6 +173,8 @@ Select a final bundle by priority:
 
 Install skills approved by the plan using `find-skills` commands.
 
+Do actual installation work in `install` mode. Do not stop after planning unless the user explicitly requested `plan-only`.
+
 If the user sets no limit, prefer broad but useful coverage (10-20+ is valid if not noisy).
 
 Size and quality rules:
@@ -171,6 +184,13 @@ Size and quality rules:
 - apply tier thresholds (see quality policy).
 
 If mode is `plan-only`, do not run install commands; provide ready-to-run commands only.
+
+If mode is `install` and no project skill meets the quality bar or no relevant skill is found:
+
+- do not claim success based only on companion-skill validation,
+- include the exact line `I could not find skills for: ...`,
+- include `I recommend creating skills for: ...` when the missing coverage is important enough to justify a custom skill,
+- make the uncovered domains explicit enough for `ai-scaffolding` to trigger the custom-skill path.
 
 ## Skill quality policy
 
@@ -207,11 +227,14 @@ Always report:
 1. Detected technology and context.
 2. Questions asked (if any) and decisions made.
 3. Domain-based search plan.
-4. Selected skills by tier with short rationale.
-5. Installation commands executed.
-6. Installed skills and pending failures (if any).
-7. Identified gaps and proposed next step.
-8. `find-skills` status (already present, user-approved install, or blocked waiting for approval).
+4. Concrete `find-skills` queries executed.
+5. Selected project skills by tier with short rationale.
+6. Installation commands executed.
+7. Installed project skills and pending failures (if any).
+8. Identified gaps and proposed next step.
+9. `find-skills` status (already present, user-approved install, or blocked waiting for approval).
+
+If no project skills were installed, the report must still include at least one of the exact gap lines below. A report with zero installed project skills and no explicit gap lines is incomplete.
 
 If custom skills are advisable, add the exact sentence:
 
@@ -224,9 +247,11 @@ If any gap remains, add the exact sentence:
 If `.agents/ai-scaffolding-context.md` exists, update it with:
 
 - detected stack and architecture,
+- companion-skill validation result,
+- search queries executed,
 - skill bundle rationale,
 - commands executed,
-- installed skills and gaps.
+- installed project skills and gaps.
 
 ## Anti-patterns to avoid
 
@@ -238,6 +263,7 @@ If `.agents/ai-scaffolding-context.md` exists, update it with:
 - Installing redundant skills that duplicate value.
 - Forcing recommendations that conflict with local rules.
 - Re-asking questions already answered in `.agents/ai-scaffolding-context.md`.
+- Treating this skill as complete after only validating the workflow companion skills.
 
 ## Internal references
 

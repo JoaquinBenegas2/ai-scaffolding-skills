@@ -63,7 +63,8 @@ High level behavior:
 - `ai-scaffolding` is the orchestrator skill.
 - It explores the repo first and persists shared state in `.agents/ai-scaffolding-context.md`.
 - Companion skills read that file first when it exists, reuse its answers, and only ask for missing information.
-- `ai-scaffolding` validates required skills, runs `agents-md-generator` -> `tech-rules-generator` -> `tech-commands-generator` -> `tech-skill-installer` -> `skills-to-subagents`, handles missing dependencies, and updates the context after every stage.
+- `ai-scaffolding` validates required companion skills, runs `agents-md-generator` -> `tech-rules-generator` -> `tech-commands-generator` -> `tech-skill-installer` -> `skills-to-subagents`, handles missing dependencies, and updates the context after every stage.
+- `tech-skill-installer` is for project skills, not workflow companion validation: it must install useful project skills or emit explicit gap lines that trigger the custom-skill path.
 
 ## Flow diagram
 
@@ -102,6 +103,7 @@ The suite is intentionally conservative with external skill dependencies:
 - `find-skills` requires explicit user approval before installation.
 - `skill-creator` requires explicit user approval before installation.
 - If `skill-creator` is not installed, the workflow still completes using the built-in fallback guidance.
+- A completed installer stage must show installed project skills or explicit uncovered gaps; companion-skill validation alone is not enough.
 
 ## Structure
 

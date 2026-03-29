@@ -45,6 +45,7 @@ Use this template for `.agents/ai-scaffolding-context.md`.
 - find-skills approval:
 - skill-creator status:
 - skill-creator approval:
+- companion skills validation status:
 
 ## Stage outputs
 ### agents-md-generator
@@ -63,7 +64,11 @@ Use this template for `.agents/ai-scaffolding-context.md`.
 - Open issues:
 
 ### tech-skill-installer
-- Files/skills:
+- Companion skills verified:
+- Search queries executed:
+- Install commands executed:
+- Installed project skills:
+- Missing project-skill coverage:
 - Decisions:
 - Open issues:
 - Recommended new skills:
@@ -81,3 +86,4 @@ Use this template for `.agents/ai-scaffolding-context.md`.
 - Prefer bullets over long prose.
 - Update the file after each stage and after each user answer that materially affects decisions.
 - Preserve valid prior context unless the user or repository evidence contradicts it.
+- Never collapse companion-skill validation and project-skill installation into the same bullet.

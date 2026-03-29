@@ -64,6 +64,13 @@ Preferred installation policy:
 
 Do not silently skip a missing companion skill.
 
+Skill categories in this workflow:
+
+- `companion skills`: the orchestrator dependencies listed above that make the 5-stage workflow run.
+- `project skills`: the stack- and repo-specific skills that `tech-skill-installer` must discover for the target repository.
+
+Do not treat companion-skill validation as a substitute for project-skill discovery or installation.
+
 ## Mandatory execution order
 
 Always guide the workflow in this exact sequence:
@@ -163,7 +170,7 @@ Stage-specific context expectations:
 - `agents-md-generator`: persist the root guidance decisions and repo-level operating conventions.
 - `tech-rules-generator`: persist the selected technologies, rule topics, and rule-pack rationale.
 - `tech-commands-generator`: persist the command files created, the Git baseline kept or omitted, stack-specific commands added, and the repo evidence behind them.
-- `tech-skill-installer`: persist the installed skills, uncovered gaps, dependency approvals, and bundle rationale.
+- `tech-skill-installer`: persist the companion-skill validation separately from the project-skill search queries, installed project skills, unmet domains, dependency approvals, and bundle rationale.
 - `skills-to-subagents`: persist which reusable subagents were created or intentionally skipped and why.
 
 Delegation rule:
@@ -184,12 +191,14 @@ Handoff rules:
 After `tech-skill-installer` runs:
 
 1. Inspect its output for:
+   - installed project skills or executed install commands,
    - `I could not find skills for: ...`
    - `I recommend creating skills for: ...`
-2. If no custom skill creation is recommended, continue to the next stage.
-3. If custom skill creation is recommended:
-   - ask the user whether to install `skill-creator`,
-   - wait for the user's answer before deciding the creation path.
+2. If the installer did not install any project skills and did not emit at least one of the exact gap lines above, treat stage 4 as incomplete and rerun it with an explicit correction: companion-skill validation alone is insufficient.
+3. If project skills were installed and no custom skill creation is recommended, continue to the next stage.
+4. If custom skill creation is recommended:
+    - ask the user whether to install `skill-creator`,
+    - wait for the user's answer before deciding the creation path.
 
 Decision policy:
 
@@ -203,6 +212,7 @@ If `.agents/ai-scaffolding-context.md` exists, record:
 - which skills were recommended for creation,
 - whether `skill-creator` was approved,
 - whether skills were created with `skill-creator` or the basic manual path.
+- whether stage 4 installed project skills, emitted explicit gaps, or had to be rerun for being incomplete.
 
 ### Step 5 - Consolidation and consistency checks
 
@@ -211,9 +221,10 @@ At the end of the 5-stage sequence, validate:
 1. Scaffold structure exists and is coherent.
 2. `AGENTS.md` and `.agents/rules/` do not conflict.
 3. `.agents/commands/` aligns with `AGENTS.md`, `.agents/rules/`, and actual repo workflows.
-4. Installed/created skills align with rules, commands, and stack.
-5. `.agents/ai-scaffolding-context.md` reflects the final state accurately.
-6. Outputs from the final stage remain non-overlapping and purpose-specific.
+4. `tech-skill-installer` produced one of these outcomes: installed project skills, or exact explicit gap lines for uncovered domains.
+5. Installed/created project skills align with rules, commands, and stack.
+6. `.agents/ai-scaffolding-context.md` reflects the final state accurately.
+7. Outputs from the final stage remain non-overlapping and purpose-specific.
 
 If conflicts exist, report them and propose the smallest safe fix.
 
@@ -226,10 +237,11 @@ Always report:
 3. Skill execution trace in order.
 4. Files created/updated by stage.
 5. Companion skills validated or installed.
-6. Decisions propagated through the context file.
-7. Whether missing custom skills were created with `skill-creator` or the manual fallback path.
-8. Assumptions and unresolved risks.
-9. Recommended next validation step.
+6. Project skills discovered, installed, or explicitly marked as gaps.
+7. Decisions propagated through the context file.
+8. Whether missing custom skills were created with `skill-creator` or the manual fallback path.
+9. Assumptions and unresolved risks.
+10. Recommended next validation step.
 
 ## Anti-patterns
 
@@ -240,6 +252,7 @@ Always report:
 - Replacing user artifacts when refinement is enough.
 - Silently continuing when required companion skills are missing.
 - Installing `find-skills` without explicit user approval.
+- Treating `tech-skill-installer` as a companion-skill check instead of a project-skill installation stage.
 
 ## Internal references
 
