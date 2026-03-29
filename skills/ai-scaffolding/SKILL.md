@@ -1,6 +1,6 @@
 ---
 name: ai-scaffolding
-description: Build or upgrade an AI project scaffolding by creating a shared AI scaffolding context, root AGENTS guidance, modular rules, and supporting skills. Use this skill proactively whenever the user asks for AI scaffolding, agent bootstrap, AGENTS.md setup, .agents folder setup, rules/skills initialization, or phased agent architecture by stack (especially Java, but also other stacks). Always perform adaptive discovery first, persist findings to `.agents/ai-scaffolding-context.md`, ensure the required companion skills exist, then run them in strict sequence.
+description: Build or upgrade an AI project scaffolding by creating a shared AI scaffolding context, root AGENTS guidance, modular rules, reusable commands, and supporting skills. Use this skill proactively whenever the user asks for AI scaffolding, agent bootstrap, AGENTS.md setup, .agents folder setup, rules/commands/skills initialization, or phased agent architecture by stack (especially Java, but also Go, Python, JavaScript/TypeScript, React, Next.js, Angular, and .NET). Always perform adaptive discovery first, persist findings to `.agents/ai-scaffolding-context.md`, ensure the required companion skills exist, then run them in strict sequence.
 ---
 
 # AI Scaffolding
@@ -26,6 +26,7 @@ The expected baseline structure is:
   skills/
   agents/
   rules/
+  commands/
   ai-scaffolding-context.md
 AGENTS.md
 ```
@@ -38,8 +39,9 @@ This workflow expects these skills to be available:
 
 1. `agents-md-generator`
 2. `tech-rules-generator`
-3. `tech-skill-installer`
-4. `skills-to-subagents`
+3. `tech-commands-generator`
+4. `tech-skill-installer`
+5. `skills-to-subagents`
 
 Special dependency note:
 
@@ -68,8 +70,9 @@ Always guide the workflow in this exact sequence:
 
 1. `agents-md-generator`
 2. `tech-rules-generator`
-3. `tech-skill-installer`
-4. `skills-to-subagents`
+3. `tech-commands-generator`
+4. `tech-skill-installer`
+5. `skills-to-subagents`
 
 Never reorder the sequence unless the user explicitly requests a different order.
 
@@ -88,7 +91,7 @@ Execution preference:
 Before asking questions:
 
 1. Read root `AGENTS.md` if present.
-2. Inspect `.agents/` current state (`agents`, `skills`, `rules`).
+2. Inspect `.agents/` current state (`agents`, `skills`, `rules`, `commands`).
 3. Inspect stack evidence (tooling files, framework files, source layout, tests, CI).
 4. Read `.agents/ai-scaffolding-context.md` if it already exists and reuse valid prior context.
 
@@ -155,6 +158,14 @@ For each required skill in order:
    - remaining gaps,
    - assumptions or risks.
 
+Stage-specific context expectations:
+
+- `agents-md-generator`: persist the root guidance decisions and repo-level operating conventions.
+- `tech-rules-generator`: persist the selected technologies, rule topics, and rule-pack rationale.
+- `tech-commands-generator`: persist the command files created, the Git baseline kept or omitted, stack-specific commands added, and the repo evidence behind them.
+- `tech-skill-installer`: persist the installed skills, uncovered gaps, dependency approvals, and bundle rationale.
+- `skills-to-subagents`: persist which reusable subagents were created or intentionally skipped and why.
+
 Delegation rule:
 
 - Default to ephemeral subagents for stage isolation when possible.
@@ -164,8 +175,9 @@ Delegation rule:
 Handoff rules:
 
 - From stage 1 to 2: pass AGENTS constraints and project intent.
-- From stage 2 to 3: pass generated rules and uncovered capability gaps.
-- From stage 3 to 4: pass installed/missing skills and bundle rationale.
+- From stage 2 to 3: pass generated rules plus workflow conventions that should shape the command pack.
+- From stage 3 to 4: pass the command baseline, detected Git conventions, and uncovered capability gaps.
+- From stage 4 to 5: pass installed/missing skills and bundle rationale.
 
 ### Step 4.5 - Handle missing custom skills after installer stage
 
@@ -194,13 +206,14 @@ If `.agents/ai-scaffolding-context.md` exists, record:
 
 ### Step 5 - Consolidation and consistency checks
 
-At the end of the 4-stage sequence, validate:
+At the end of the 5-stage sequence, validate:
 
 1. Scaffold structure exists and is coherent.
 2. `AGENTS.md` and `.agents/rules/` do not conflict.
-3. Installed/created skills align with rules and stack.
-4. `.agents/ai-scaffolding-context.md` reflects the final state accurately.
-5. Outputs from the final stage remain non-overlapping and purpose-specific.
+3. `.agents/commands/` aligns with `AGENTS.md`, `.agents/rules/`, and actual repo workflows.
+4. Installed/created skills align with rules, commands, and stack.
+5. `.agents/ai-scaffolding-context.md` reflects the final state accurately.
+6. Outputs from the final stage remain non-overlapping and purpose-specific.
 
 If conflicts exist, report them and propose the smallest safe fix.
 

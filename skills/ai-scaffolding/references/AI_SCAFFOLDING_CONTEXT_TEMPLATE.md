@@ -57,6 +57,11 @@ Use this template for `.agents/ai-scaffolding-context.md`.
 - Decisions:
 - Open issues:
 
+### tech-commands-generator
+- Files:
+- Decisions:
+- Open issues:
+
 ### tech-skill-installer
 - Files/skills:
 - Decisions:
