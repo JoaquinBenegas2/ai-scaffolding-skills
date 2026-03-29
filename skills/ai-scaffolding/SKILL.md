@@ -170,7 +170,7 @@ Stage-specific context expectations:
 - `agents-md-generator`: persist the root guidance decisions and repo-level operating conventions.
 - `tech-rules-generator`: persist the selected technologies, rule topics, and rule-pack rationale.
 - `tech-commands-generator`: persist the command files created, the Git baseline kept or omitted, stack-specific commands added, and the repo evidence behind them.
-- `tech-skill-installer`: persist the companion-skill validation separately from the project-skill search queries, default `.agents/` install target, installed project skills, optional deferred opportunities, unmet domains, dependency approvals, and bundle rationale.
+- `tech-skill-installer`: persist the companion-skill validation separately from the project-skill search queries, default `.agents/` install target, summary file path, installed project skills, optional deferred opportunities, unmet domains, dependency approvals, and bundle rationale.
 - `skills-to-subagents`: persist which reusable subagents were created or intentionally skipped and why.
 
 Delegation rule:
@@ -193,9 +193,10 @@ After `tech-skill-installer` runs:
 1. Inspect its output for:
    - installed project skills or executed install commands,
    - confirmation that the default `.agents/` target was used without selecting an environment-specific host,
+   - `.agents/installed-skills-summary.md` created or updated,
    - `I could not find skills for: ...`
    - `I recommend creating skills for: ...`
-2. If the installer did not confirm the default `.agents/` target, or did not install any project skills and did not emit at least one of the exact gap lines above, treat stage 4 as incomplete and rerun it with an explicit correction.
+2. If the installer did not confirm the default `.agents/` target, did not create the installed-skill summary file, or did not install any project skills and did not emit at least one of the exact gap lines above, treat stage 4 as incomplete and rerun it with an explicit correction.
 3. If project skills were installed and no custom skill creation is recommended, continue to the next stage.
 4. If custom skill creation is recommended:
     - ask the user whether to install `skill-creator`,
@@ -223,11 +224,12 @@ At the end of the 5-stage sequence, validate:
 2. `AGENTS.md` and `.agents/rules/` do not conflict.
 3. `.agents/commands/` aligns with `AGENTS.md`, `.agents/rules/`, and actual repo workflows.
 4. `tech-skill-installer` kept installation on the default `.agents/` target and did not select an environment-specific host unless the user explicitly requested it.
-5. `tech-skill-installer` produced one of these outcomes: installed project skills, or exact explicit gap lines for uncovered domains.
-6. Installed/created project skills align with rules, commands, and stack.
-7. The installed project-skill count stays within the expected 3-15 range, or the shortfall/excess candidates are explicitly justified.
-8. `.agents/ai-scaffolding-context.md` reflects the final state accurately.
-9. Outputs from the final stage remain non-overlapping and purpose-specific.
+5. `.agents/installed-skills-summary.md` exists and contains only the required title and audit table.
+6. `tech-skill-installer` produced one of these outcomes: installed project skills, or exact explicit gap lines for uncovered domains.
+7. Installed/created project skills align with rules, commands, and stack.
+8. The installed project-skill count stays within the expected 3-15 range, or the shortfall/excess candidates are explicitly justified.
+9. `.agents/ai-scaffolding-context.md` reflects the final state accurately.
+10. Outputs from the final stage remain non-overlapping and purpose-specific.
 
 If conflicts exist, report them and propose the smallest safe fix.
 
@@ -241,7 +243,7 @@ Always report:
 4. Files created/updated by stage.
 5. Companion skills validated or installed.
 6. Project skills discovered, installed, or explicitly marked as gaps.
-7. Installation target used for project skills and whether any opportunities were intentionally deferred by the 15-skill cap.
+7. Installation target used for project skills, summary file created, and whether any opportunities were intentionally deferred by the 15-skill cap.
 8. Decisions propagated through the context file.
 9. Whether missing custom skills were created with `skill-creator` or the manual fallback path.
 10. Assumptions and unresolved risks.

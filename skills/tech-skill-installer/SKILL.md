@@ -197,6 +197,18 @@ Do actual installation work in `install` mode. Do not stop after planning unless
 
 When an install command prompts for target environment or host tool, keep the default `.agents/` target and do not select any tool-specific option.
 
+After installation work in `install` mode, create or update `.agents/installed-skills-summary.md`.
+
+Format requirements for `.agents/installed-skills-summary.md`:
+
+- include only a title and a markdown table,
+- do not add prose before or after the table,
+- use one row per installed project skill,
+- table columns must be: `Skill`, `Objective`, `Why Installed`, `Repository`,
+- the `Repository` column must contain the repository link for the installed skill so the user can review it manually later.
+
+If no project skills were installed, still create the file with the title and table header only.
+
 If the user sets no limit, stay within the bundle size policy above.
 
 Size and quality rules:
@@ -254,10 +266,11 @@ Always report:
 5. Selected project skills by tier with short rationale.
 6. Installation commands executed.
 7. Installation target used and confirmation that no environment-specific target was selected.
-8. Installed project skills and pending failures (if any).
-9. Optional opportunities intentionally not installed because of bundle-size limits.
-10. Identified gaps and proposed next step.
-11. `find-skills` status (already present, user-approved install, or blocked waiting for approval).
+8. Summary file created or updated at `.agents/installed-skills-summary.md`.
+9. Installed project skills and pending failures (if any).
+10. Optional opportunities intentionally not installed because of bundle-size limits.
+11. Identified gaps and proposed next step.
+12. `find-skills` status (already present, user-approved install, or blocked waiting for approval).
 
 If no project skills were installed, the report must still include at least one of the exact gap lines below. A report with zero installed project skills and no explicit gap lines is incomplete.
 
@@ -279,6 +292,7 @@ If `.agents/ai-scaffolding-context.md` exists, update it with:
 - companion-skill validation result,
 - search queries executed,
 - installation target used,
+- summary file path,
 - skill bundle rationale,
 - commands executed,
 - installed project skills,
@@ -295,6 +309,7 @@ If `.agents/ai-scaffolding-context.md` exists, update it with:
 - Installing redundant skills that duplicate value.
 - Selecting Windsurf, Claude, Kiro, Codex, Cursor, or any other environment-specific install target when the default `.agents/` target is available.
 - Installing more than 15 project skills by default.
+- Omitting the installed skill summary file or filling it with prose instead of the required title-plus-table format.
 - Forcing recommendations that conflict with local rules.
 - Re-asking questions already answered in `.agents/ai-scaffolding-context.md`.
 - Treating this skill as complete after only validating the workflow companion skills.

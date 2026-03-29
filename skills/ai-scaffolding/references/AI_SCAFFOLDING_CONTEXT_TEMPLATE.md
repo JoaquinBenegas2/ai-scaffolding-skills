@@ -67,6 +67,7 @@ Use this template for `.agents/ai-scaffolding-context.md`.
 - Companion skills verified:
 - Search queries executed:
 - Installation target used:
+- Installed skills summary file:
 - Install commands executed:
 - Installed project skills:
 - Optional opportunities deferred by cap:

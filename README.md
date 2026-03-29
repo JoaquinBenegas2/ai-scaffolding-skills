@@ -66,6 +66,7 @@ High level behavior:
 - `ai-scaffolding` validates required companion skills, runs `agents-md-generator` -> `tech-rules-generator` -> `tech-commands-generator` -> `tech-skill-installer` -> `skills-to-subagents`, handles missing dependencies, and updates the context after every stage.
 - `tech-skill-installer` is for project skills, not workflow companion validation: it must install useful project skills or emit explicit gap lines that trigger the custom-skill path.
 - `tech-skill-installer` must keep the default `.agents/` install target, avoid environment-specific targets like Windsurf/Claude/Codex/Kiro, and keep the installed bundle between 3 and 15 skills unless it explicitly documents why it could not reach the minimum.
+- `tech-skill-installer` must also create `.agents/installed-skills-summary.md` with only a title and a table listing each installed skill, its objective, why it was installed, and the repository link for manual review.
 
 ## Flow diagram
 
