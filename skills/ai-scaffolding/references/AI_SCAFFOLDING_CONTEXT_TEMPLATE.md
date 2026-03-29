@@ -66,8 +66,10 @@ Use this template for `.agents/ai-scaffolding-context.md`.
 ### tech-skill-installer
 - Companion skills verified:
 - Search queries executed:
+- Installation target used:
 - Install commands executed:
 - Installed project skills:
+- Optional opportunities deferred by cap:
 - Missing project-skill coverage:
 - Decisions:
 - Open issues:

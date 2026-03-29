@@ -157,6 +157,8 @@ Prioritize skills for:
 
 ## Bundle size policy
 
-- Recommended minimum: 6-10 skills (for narrow scope).
-- Recommended standard: 10-20 skills.
-- Extended bundle: 20+ skills only when each one covers a non-redundant domain.
+- Minimum target: 3 installed skills when the ecosystem supports it.
+- Default target: 3-8 installed skills.
+- Maximum: 15 installed skills.
+- If more than 15 good candidates exist, install only the best-fitting 15 and report the rest as optional opportunities.
+- If fewer than 3 good candidates exist, install the defensible set and explicitly report the shortfall.

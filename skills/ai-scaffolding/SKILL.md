@@ -170,7 +170,7 @@ Stage-specific context expectations:
 - `agents-md-generator`: persist the root guidance decisions and repo-level operating conventions.
 - `tech-rules-generator`: persist the selected technologies, rule topics, and rule-pack rationale.
 - `tech-commands-generator`: persist the command files created, the Git baseline kept or omitted, stack-specific commands added, and the repo evidence behind them.
-- `tech-skill-installer`: persist the companion-skill validation separately from the project-skill search queries, installed project skills, unmet domains, dependency approvals, and bundle rationale.
+- `tech-skill-installer`: persist the companion-skill validation separately from the project-skill search queries, default `.agents/` install target, installed project skills, optional deferred opportunities, unmet domains, dependency approvals, and bundle rationale.
 - `skills-to-subagents`: persist which reusable subagents were created or intentionally skipped and why.
 
 Delegation rule:
@@ -192,9 +192,10 @@ After `tech-skill-installer` runs:
 
 1. Inspect its output for:
    - installed project skills or executed install commands,
+   - confirmation that the default `.agents/` target was used without selecting an environment-specific host,
    - `I could not find skills for: ...`
    - `I recommend creating skills for: ...`
-2. If the installer did not install any project skills and did not emit at least one of the exact gap lines above, treat stage 4 as incomplete and rerun it with an explicit correction: companion-skill validation alone is insufficient.
+2. If the installer did not confirm the default `.agents/` target, or did not install any project skills and did not emit at least one of the exact gap lines above, treat stage 4 as incomplete and rerun it with an explicit correction.
 3. If project skills were installed and no custom skill creation is recommended, continue to the next stage.
 4. If custom skill creation is recommended:
     - ask the user whether to install `skill-creator`,
@@ -221,10 +222,12 @@ At the end of the 5-stage sequence, validate:
 1. Scaffold structure exists and is coherent.
 2. `AGENTS.md` and `.agents/rules/` do not conflict.
 3. `.agents/commands/` aligns with `AGENTS.md`, `.agents/rules/`, and actual repo workflows.
-4. `tech-skill-installer` produced one of these outcomes: installed project skills, or exact explicit gap lines for uncovered domains.
-5. Installed/created project skills align with rules, commands, and stack.
-6. `.agents/ai-scaffolding-context.md` reflects the final state accurately.
-7. Outputs from the final stage remain non-overlapping and purpose-specific.
+4. `tech-skill-installer` kept installation on the default `.agents/` target and did not select an environment-specific host unless the user explicitly requested it.
+5. `tech-skill-installer` produced one of these outcomes: installed project skills, or exact explicit gap lines for uncovered domains.
+6. Installed/created project skills align with rules, commands, and stack.
+7. The installed project-skill count stays within the expected 3-15 range, or the shortfall/excess candidates are explicitly justified.
+8. `.agents/ai-scaffolding-context.md` reflects the final state accurately.
+9. Outputs from the final stage remain non-overlapping and purpose-specific.
 
 If conflicts exist, report them and propose the smallest safe fix.
 
@@ -238,10 +241,11 @@ Always report:
 4. Files created/updated by stage.
 5. Companion skills validated or installed.
 6. Project skills discovered, installed, or explicitly marked as gaps.
-7. Decisions propagated through the context file.
-8. Whether missing custom skills were created with `skill-creator` or the manual fallback path.
-9. Assumptions and unresolved risks.
-10. Recommended next validation step.
+7. Installation target used for project skills and whether any opportunities were intentionally deferred by the 15-skill cap.
+8. Decisions propagated through the context file.
+9. Whether missing custom skills were created with `skill-creator` or the manual fallback path.
+10. Assumptions and unresolved risks.
+11. Recommended next validation step.
 
 ## Anti-patterns
 
@@ -253,6 +257,8 @@ Always report:
 - Silently continuing when required companion skills are missing.
 - Installing `find-skills` without explicit user approval.
 - Treating `tech-skill-installer` as a companion-skill check instead of a project-skill installation stage.
+- Allowing `tech-skill-installer` to select an environment-specific install target when the default `.agents/` path is sufficient.
+- Allowing `tech-skill-installer` to install an unbounded number of project skills.
 
 ## Internal references
 

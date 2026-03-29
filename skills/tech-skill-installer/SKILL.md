@@ -25,7 +25,8 @@ you should:
 4. Build a domain-based search plan.
 5. Verify `find-skills` is available.
 6. Use `find-skills` to discover concrete skills.
-7. Install a coherent set (10-20+ is valid when it adds non-redundant coverage).
+7. Install a coherent set of project skills in the default `.agents/` location.
+8. Keep the installed bundle intentionally bounded.
 
 Companion-skill validation boundary:
 
@@ -44,6 +45,17 @@ Before installing, choose mode based on user request and context:
 - `install`: search and execute installation.
 
 If the user does not specify mode, default to `install`.
+
+### Installation target policy
+
+When running install commands or answering installer prompts:
+
+- keep the default installation target that writes into `.agents/`,
+- do not select Windsurf, Claude, Kiro, Codex, Cursor, or any other environment-specific target,
+- do not create multiple agent-tool folders for the same skill bundle,
+- if the installer offers an environment selection menu, leave it unselected and continue with the default target.
+
+Success for this skill assumes the installed artifacts land under the repository's `.agents/` structure unless the user explicitly asked for a different target.
 
 ### Step 1 - Mandatory local discovery
 
@@ -171,17 +183,28 @@ Select a final bundle by priority:
 - **Tier 2 (recommended):** performance, security, observability, code quality.
 - **Tier 3 (contextual):** product/domain-specific needs.
 
+Bundle size policy for actual installation:
+
+- hard minimum target: 3 installed project skills,
+- hard maximum: 15 installed project skills,
+- default target range: 3-8 unless the repository clearly benefits from broader coverage,
+- if more than 15 good candidates exist, install only the best-fitting 15 and report the rest as optional opportunities,
+- if fewer than 3 defensible skills are available, install what passes the quality bar and explicitly report the shortfall and missing coverage.
+
 Install skills approved by the plan using `find-skills` commands.
 
 Do actual installation work in `install` mode. Do not stop after planning unless the user explicitly requested `plan-only`.
 
-If the user sets no limit, prefer broad but useful coverage (10-20+ is valid if not noisy).
+When an install command prompts for target environment or host tool, keep the default `.agents/` target and do not select any tool-specific option.
+
+If the user sets no limit, stay within the bundle size policy above.
 
 Size and quality rules:
 
 - avoid more than 2 skills per subdomain unless justified,
 - avoid bloated bundles with many variants of the same topic,
 - apply tier thresholds (see quality policy).
+- prefer coverage breadth over many near-duplicate skills in one domain.
 
 If mode is `plan-only`, do not run install commands; provide ready-to-run commands only.
 
@@ -230,11 +253,17 @@ Always report:
 4. Concrete `find-skills` queries executed.
 5. Selected project skills by tier with short rationale.
 6. Installation commands executed.
-7. Installed project skills and pending failures (if any).
-8. Identified gaps and proposed next step.
-9. `find-skills` status (already present, user-approved install, or blocked waiting for approval).
+7. Installation target used and confirmation that no environment-specific target was selected.
+8. Installed project skills and pending failures (if any).
+9. Optional opportunities intentionally not installed because of bundle-size limits.
+10. Identified gaps and proposed next step.
+11. `find-skills` status (already present, user-approved install, or blocked waiting for approval).
 
 If no project skills were installed, the report must still include at least one of the exact gap lines below. A report with zero installed project skills and no explicit gap lines is incomplete.
+
+If fewer than 3 project skills were installed, explain why the minimum target could not be reached.
+
+If 15 project skills were installed and more viable candidates remained, do not install more; list them as optional opportunities instead.
 
 If custom skills are advisable, add the exact sentence:
 
@@ -249,9 +278,12 @@ If `.agents/ai-scaffolding-context.md` exists, update it with:
 - detected stack and architecture,
 - companion-skill validation result,
 - search queries executed,
+- installation target used,
 - skill bundle rationale,
 - commands executed,
-- installed project skills and gaps.
+- installed project skills,
+- optional opportunities not installed,
+- gaps.
 
 ## Anti-patterns to avoid
 
@@ -261,6 +293,8 @@ If `.agents/ai-scaffolding-context.md` exists, update it with:
 - Picking only 2-3 generic skills and leaving critical gaps.
 - Ignoring architecture (microservices vs monolith).
 - Installing redundant skills that duplicate value.
+- Selecting Windsurf, Claude, Kiro, Codex, Cursor, or any other environment-specific install target when the default `.agents/` target is available.
+- Installing more than 15 project skills by default.
 - Forcing recommendations that conflict with local rules.
 - Re-asking questions already answered in `.agents/ai-scaffolding-context.md`.
 - Treating this skill as complete after only validating the workflow companion skills.
