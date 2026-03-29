@@ -1,6 +1,6 @@
 ---
 name: skills-to-subagents
-description: Analyze the current project context and existing `.agents/skills` to design and create high-value subagents. Use this when the user asks to create subagents, specialize agent behavior, or convert repeated skill workflows into isolated reusable agents. Always read `AGENTS.md`, `.agents/rules`, `.agents/skills`, and `.agents/ai-scaffolding-context.md` first when available before proposing or creating subagents.
+description: Analyze the current project context and existing `.agents/skills` to design and create high-value subagents. Use this when the user asks to create subagents, specialize agent behavior, or convert repeated skill workflows into isolated reusable agents. Always read `AGENTS.md`, `.agents/rules`, `.agents/skills`, `.agents/agents`, and `.agents/ai-scaffolding-context.md` first when available before proposing or creating subagents.
 disable-model-invocation: true
 argument-hint: [target area or stack]
 ---
@@ -42,7 +42,8 @@ Before proposing any subagent:
 
 1. Read root `AGENTS.md`.
 2. Read `.agents/rules/` (if present).
-3. Inventory `.agents/skills/`:
+3. Inventory existing `.agents/agents/` to avoid duplicate or conflicting subagents.
+4. Inventory `.agents/skills/`:
    - skill name,
    - what it does,
    - whether it is task-heavy, knowledge-heavy, or mixed,
@@ -89,6 +90,12 @@ For each candidate subagent, provide:
 
 Keep the initial set focused (typically 2-4 subagents).
 
+Approval boundary:
+
+- in direct use, get explicit user approval before writing persistent files under `.agents/agents/`,
+- if the user explicitly asked to create subagents, that request can count as approval for the agreed candidate set,
+- in `ai-scaffolding` stage 5, treat the orchestrated flow plus the approved candidate list as sufficient approval.
+
 ### Step 5 - Ask only unresolved questions
 
 Ask only if candidate responsibilities or target stack remain unclear after reading:
@@ -129,6 +136,7 @@ Run a quick overlap check:
 2. Each subagent has one primary purpose.
 3. Delegation boundaries are clear.
 4. Coverage aligns with project goals in `AGENTS.md`.
+5. No subagent duplicates an existing skill, command, rule, or persistent subagent without a clear isolation benefit.
 
 If overlaps exist, merge or narrow scopes before finalizing.
 
@@ -141,7 +149,8 @@ Always report:
 3. Candidate subagents with rationale.
 4. Subagents created (file paths).
 5. Deferred candidates (with reason).
-6. Assumptions and open risks.
+6. Approval basis used for any persistent subagent files.
+7. Assumptions and open risks.
 
 If `.agents/ai-scaffolding-context.md` exists, update it with:
 

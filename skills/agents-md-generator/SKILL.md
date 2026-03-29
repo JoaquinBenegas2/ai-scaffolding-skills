@@ -1,6 +1,6 @@
 ---
 name: agents-md-generator
-description: Create or refactor root AGENTS.md/CLAUDE.md as a lean, high-signal agent rules file grounded in real repository evidence (scripts, CI, tooling), with progressive disclosure and stack-specific conventions. Use this whenever the user asks to create, rewrite, standardize, audit contradictions, or reduce token cost in AGENTS.md/CLAUDE.md, or to define agent commands, boundaries, and project conventions for stacks like Java, Go, React, Next.js, Python, or .NET, even if they do not name this skill explicitly. Before exploring deeply or asking questions, first check whether `.agents/ai-scaffolding-context.md` already contains the needed context.
+description: Create or refactor root `AGENTS.md` as the canonical, high-signal agent rules file grounded in real repository evidence (scripts, CI, tooling), with progressive disclosure and stack-specific conventions. Use this whenever the user asks to create, rewrite, standardize, audit contradictions, or reduce token cost in `AGENTS.md` or `CLAUDE.md`, or to define agent commands, boundaries, and project conventions for stacks like Java, Go, React, Next.js, Python, or .NET, even if they do not name this skill explicitly. Before exploring deeply or asking questions, first check whether `.agents/ai-scaffolding-context.md` already contains the needed context.
 ---
 
 # Agents MD Generator
@@ -15,7 +15,7 @@ Use this skill when the user wants to:
 - adapt guidance to a target stack (Java, Go, React, Next.js, and others),
 - reduce token usage while keeping strong guidance.
 
-`CLAUDE.md` and `AGENTS.md` are equivalent for this workflow. If the user asks for one, satisfy the request; optionally note cross-tool compatibility.
+`AGENTS.md` is the canonical output for this bundle. If the user asks for `CLAUDE.md`, still keep or create root `AGENTS.md` so the rest of the workflow can rely on it. Only mirror the same guidance into `CLAUDE.md` when the user explicitly wants cross-tool compatibility.
 
 ## Outcome
 
@@ -25,7 +25,7 @@ Produce:
 2. Progressive-disclosure links to deeper docs when needed.
 3. Stack-aware guidance that combines shared context + repo evidence + strong defaults.
 
-If no docs tree exists, create one only when it adds value.
+If no supporting docs exist, prefer linking to existing `.agents/` artifacts first. Create at most one lightweight supporting markdown file only when root `AGENTS.md` would otherwise become bloated.
 
 ## Operating Principles
 
@@ -83,6 +83,12 @@ Command reliability rules:
 
 Ask a focused question only when a missing or conflicting detail materially changes `AGENTS.md` behavior.
 
+Question budget:
+
+- if repository evidence is strong, prefer zero questions,
+- otherwise ask at most 3 focused questions total,
+- if uncertainty remains after that, document assumptions and continue.
+
 Before asking:
 
 1. check `.agents/ai-scaffolding-context.md`,
@@ -139,6 +145,14 @@ When generating or updating `AGENTS.md`, ensure the file includes:
 - coding/testing expectations,
 - safety boundaries,
 - links to deeper docs when needed.
+
+User-facing report:
+
+- whether `AGENTS.md` was created or updated,
+- whether `CLAUDE.md` was also mirrored and why,
+- commands confirmed from repo evidence,
+- assumptions or unresolved conflicts,
+- any supporting doc created beyond root `AGENTS.md`.
 
 Use the template in `references/AGENTS_MD_TEMPLATE.md` as baseline, then customize.
 

@@ -1,6 +1,6 @@
 ---
 name: tech-rules-generator
-description: Generate modular rule packs in `.agents/rules/[tech]/` from repository context and the existing root AGENTS.md. Use proactively when the user asks to create rules, conventions, standards, or AI scaffolding by technology (Java, Go, Python, JavaScript/TypeScript, .NET, etc.), especially when multiple rules files are needed. Always use this when the request includes creating a technology-specific rules folder or completing missing project rules. Before exploring deeply or asking questions, first check whether `.agents/ai-scaffolding-context.md` already contains the needed context.
+description: Generate modular rule packs in `.agents/rules/[tech]/` from repository context and the existing root `AGENTS.md`. Use proactively when the user asks to create rules, conventions, standards, or AI scaffolding by technology (Java, Go, Python, JavaScript/TypeScript, .NET, etc.), especially when multiple rules files are needed. Always use this when the request includes creating a technology-specific rules folder or completing missing project rules. Refine existing rule packs instead of replacing stable guidance blindly. Before exploring deeply or asking questions, first check whether `.agents/ai-scaffolding-context.md` already contains the needed context.
 ---
 
 # Tech Rules Generator
@@ -26,6 +26,7 @@ Before writing files:
 2. Read `.agents/ai-scaffolding-context.md` if it exists.
 3. Detect or confirm target technology (`tech`).
 4. Inspect existing `.agents/rules/` content to avoid duplication/conflicts.
+5. Inspect existing `.agents/rules/[tech]/` files individually when that ruleset already exists.
 
 If `AGENTS.md` does not exist, state that clearly, proceed with minimal assumptions, and recommend generating/refining `AGENTS.md` first.
 
@@ -128,6 +129,7 @@ Before finalizing, check:
 4. Rules are concise and technology-relevant.
 5. No invented commands or workflows not supported by repo context.
 6. README index matches actual files.
+7. Stable existing guidance was refined or preserved intentionally, not replaced blindly.
 
 ## Decision policy
 
@@ -157,9 +159,10 @@ If user asks for another tech, derive a comparable ruleset using the same struct
 Report:
 
 1. Detected/used technology.
-2. Files created under `.agents/rules/[tech]/`.
+2. Files created, updated, merged, or removed under `.agents/rules/[tech]/`.
 3. Why these rule topics were chosen.
 4. Any assumptions due to missing context.
+5. Any restructuring decisions and why they were safe.
 
 If `.agents/ai-scaffolding-context.md` exists, update it with:
 
