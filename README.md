@@ -11,6 +11,7 @@ These skills help you:
 - Discover the real state of a repository,
 - Create or refine `AGENTS.md`,
 - Generate modular tech rules in `.agents/rules/`,
+- Generate reusable project commands in `.agents/commands/`,
 - Discover and install supporting skills for the project stack,
 - Design and create subagents from the installed/local skill set,
 - Keep all decisions in a shared context file: `.agents/ai-scaffolding-context.md`.
@@ -22,6 +23,7 @@ This repo contains these project-owned skills:
 - `ai-scaffolding`
 - `agents-md-generator`
 - `tech-rules-generator`
+- `tech-commands-generator`
 - `tech-skill-installer`
 - `skills-to-subagents`
 
@@ -61,7 +63,7 @@ High level behavior:
 - `ai-scaffolding` is the orchestrator skill.
 - It explores the repo first and persists shared state in `.agents/ai-scaffolding-context.md`.
 - Companion skills read that file first when it exists, reuse its answers, and only ask for missing information.
-- `ai-scaffolding` validates required skills, handles missing dependencies, and updates the context after every stage.
+- `ai-scaffolding` validates required skills, runs `agents-md-generator` -> `tech-rules-generator` -> `tech-commands-generator` -> `tech-skill-installer` -> `skills-to-subagents`, handles missing dependencies, and updates the context after every stage.
 
 ## Flow diagram
 
@@ -74,20 +76,22 @@ flowchart TD
     D --> D1[Create or refine AGENTS.md]
     D1 --> E[tech-rules-generator]
     E --> E1[Create .agents/rules/<tech>/...]
-    E1 --> F[tech-skill-installer]
-    F --> F1{find-skills available?}
-    F1 -->|No| F2[Ask user before installing find-skills]
-    F1 -->|Yes| F3[Discover and install useful skills]
-    F2 --> F3
-    F3 --> G{Custom skills needed?}
-    G -->|No| H[skills-to-subagents]
-    G -->|Yes| I{Install skill-creator?}
-    I -->|Yes| I1[Install and use skill-creator]
-    I -->|No| I2[Create skills with basic fallback guide]
-    I1 --> H
-    I2 --> H
-    H --> H1[Create .agents/agents/*.md]
-    H1 --> Z[Final report and updated shared context]
+    E1 --> F[tech-commands-generator]
+    F --> F1[Create .agents/commands/*.md]
+    F1 --> G[tech-skill-installer]
+    G --> G1{find-skills available?}
+    G1 -->|No| G2[Ask user before installing find-skills]
+    G1 -->|Yes| G3[Discover and install useful skills]
+    G2 --> G3
+    G3 --> H{Custom skills needed?}
+    H -->|No| I[skills-to-subagents]
+    H -->|Yes| J{Install skill-creator?}
+    J -->|Yes| J1[Install and use skill-creator]
+    J -->|No| J2[Create skills with basic fallback guide]
+    J1 --> I
+    J2 --> I
+    I --> I1[Create .agents/agents/*.md]
+    I1 --> Z[Final report and updated shared context]
 ```
 
 ## Dependency policy
@@ -107,6 +111,7 @@ ai-scaffolding-skills/
     ai-scaffolding/
     agents-md-generator/
     tech-rules-generator/
+    tech-commands-generator/
     tech-skill-installer/
     skills-to-subagents/
 ```
@@ -154,6 +159,7 @@ Independent usage examples:
 ```text
 /agents-md-generator
 /tech-rules-generator Java
+/tech-commands-generator React Git
 /tech-skill-installer React frontend
 /skills-to-subagents verification workflow
 ```
